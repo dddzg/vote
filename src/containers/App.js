@@ -16,6 +16,8 @@ import {
 import CardWithPic from '../components/CardWithPic';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import Paper from 'material-ui/Paper';
+import FlatButton from 'material-ui/FlatButton';
 var pic=require("../pic/bg@1x.jpg");
 class App extends Component {
     // constructor(props, context) {
@@ -37,14 +39,15 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value:"1",
+            value:1,
             vote:[],
-            kinds:[0,0,0,0,0]
+            kinds:[0,0,0,0,0,0]
         };
         // console.log(this.state.vote[1]===0);
     };
     vote(id){
-        var kind= Math.floor(id/10)+1;
+        var kind= Math.floor((id-1)/10)+1;
+        console.log(id,kind);
         var kinds=this.state.kinds;
         if (kinds[kind]>=5 && this.state.vote[id]!==true){
             return 0//单一类型投票不能超过5个
@@ -65,43 +68,69 @@ class App extends Component {
         }
     }
     handleChange(id){
+        window.scrollTo(0,0); 
         this.setState({
             value:id
         });
     }
+    next(){
+        if (this.state.value<5){
+            window.scrollTo(0,0); 
+            this.setState({
+                value:this.state.value+1
+            });
+        }
+    }
+    prev(){
+        if (this.state.value>1){
+            window.scrollTo(0,0); 
+            this.setState({
+                value:this.state.value-1
+            });
+        }
+    }
     render() {
         return (
             <div className="bg" style={{
-                position:"relative",
-                height:window.screen.height,
-                maxHeight:window.screen.height,
-                background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
-                backgroundSize:"100% 100%",
                 overflow:"hidden"
             }}>
-                <Tabs
+            <div className="bg" style={{
+                    background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
+                    backgroundSize:"100% 100%",
+                    width:"100%",
+                    height:"100%",
+                    position:"fixed",
+                    zIndex:"0"
+                    }}> </div >
+            <div style={{
+                height:48
+                }}></div>
+            <Tabs className="bg"
                 value={this.state.value}
                 onChange={this.handleChange.bind(this)}
                 tabItemContainerStyle={{
                     position:"fixed",
                     zIndex:100,
                     top: 0,
-                    backgroundColor:"",
-                    fontSize:12
+                    background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
+                    backgroundSize:"100% 100%",
+                    backgroundAttachment:"fixed",
+                    fontSize:12,
+                    overflow:"hidden"
                 }}
                 inkBarStyle={{
                     top: "48px",
                     zIndex:100,
                     position:"fixed",
-                    background:"#5b5dff"
+                    background:"#5b5dff",
+                    overflow:"hidden"
                 }}
                 contentContainerStyle={{
-                    marginTop:"50px",
-                    overflow: "scroll",
-                    height:window.screen.height-50,
+                    overflowY: "hidden"
                 }}
                 >
-                    <Tab label="爱情" value="1">
+
+                    <Tab label="爱情" value={1}>
                     {
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
                             <CardWithPic key={item} id={item} 
@@ -109,9 +138,8 @@ class App extends Component {
                             />
                         )
                     }
-                        <RaisedButton label="下一页" primary={true} onTouchTap={this.handleChange.bind(this,"2")} />
                     </Tab>
-                    <Tab label="动作" value="2">
+                    <Tab label="动作" value={2}>
                     {    
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
                             <CardWithPic key={item+10} id={item+10} 
@@ -120,10 +148,8 @@ class App extends Component {
                             />
                         )
                     }
-                        <RaisedButton label="上一页" primary={true} onTouchTap={this.handleChange.bind(this,"1")} />
-                        <RaisedButton label="下一页" primary={true} onTouchTap={this.handleChange.bind(this,"3")} />
                     </Tab>
-                    <Tab label="剧情" value="3">
+                    <Tab label="剧情" value={3}>
                     {
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
                             <CardWithPic key={item+20} id={item+20} 
@@ -132,10 +158,8 @@ class App extends Component {
                             />
                         )
                     }
-                        <RaisedButton label="上一页" primary={true} onTouchTap={this.handleChange.bind(this,"2")} />
-                        <RaisedButton label="下一页" primary={true} onTouchTap={this.handleChange.bind(this,"4")} />
                     </Tab>
-                    <Tab label="恐怖" value="4">
+                    <Tab label="恐怖" value={4}>
                     {
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
                             <CardWithPic key={item+30} id={item+30} 
@@ -144,10 +168,8 @@ class App extends Component {
                             />
                         )
                     }
-                        <RaisedButton label="上一页" primary={true} onTouchTap={this.handleChange.bind(this,"3")} />
-                        <RaisedButton label="下一页" primary={true} onTouchTap={this.handleChange.bind(this,"5")} />
                     </Tab>
-                    <Tab label="害怕" value="5">
+                    <Tab label="害怕" value={5}>
                     {
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
                             <CardWithPic key={item+40} id={item+40} 
@@ -156,10 +178,29 @@ class App extends Component {
                             />
                         )
                     }
-                        <RaisedButton label="上一页" primary={true} onTouchTap={this.handleChange.bind(this,"4")} />
-                        <RaisedButton label="提交" primary={true}  />
                     </Tab>
                 </Tabs>
+                <div style={{
+                height:48
+                }}></div>
+                <Paper style={{
+                    position:"fixed",
+                    bottom:"0",
+                    width:"100%",
+                    background:"rgba( 247, 243, 249 ,0.702)",
+                    borderRadius:0
+                }}zDepth={2}>
+                <FlatButton style={{
+                    width:"50%",
+                    height:"48px"
+                }}label="上一页" onTouchTap={this.prev.bind(this)} disabled={this.state.value==1?true:false}  />
+                <FlatButton style={{
+                    width:"50%",
+                    height:"48px",
+                    fontWeight:"bold",
+                    color:this.state.value==5?"#5b5dff":"#000"
+                }}onTouchTap={this.next.bind(this)} label={this.state.value==5?"提交":"下一页"} />
+                </Paper>
             </div>
         );
     }

@@ -17,7 +17,7 @@ class CardIntroduction extends Component {
                 width:"100%"
             }}>
                 <div className="CardPic">
-                    <img  src={require("../pic/posters/angry-bird.png")} style={{
+                    <img  src={require("../pic/posters/your-name.png")} style={{
                     width:56,
                     height:81
                     }}/>

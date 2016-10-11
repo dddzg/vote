@@ -4,9 +4,11 @@ class CardExtra extends Component {
     render() {
         return (
             <div>
-                <CardText style={{
+                <CardText onTouchTap={()=>
+            this.props.expand()} style={{
                     padding:"0 10px 12px",
-                    fontSize:"12px"
+                    fontSize:"12px",
+                    lineHeight:"18px"
                 }}>
                     我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍
                     我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍

@@ -46,40 +46,42 @@ class CardWithPic extends Component {
                 checked={this.state.voted}
                 onCheck={()=>{
                             var num=this.props.vote(id);
-                            var mess="";
+                            var open=false;
                             var tempvote=false;
                             switch (num) {
                                 case 0:
-                                    mess="单一类型投票不能超过5个";
+                                    open=true;
                                     tempvote=false;
                                     break;
                                 case 1:
-                                    mess="投票成功";
+                                    open=false;
                                     tempvote=true;
                                     break;
                                 case 2:
-                                    mess="取消投票成功";
+                                    open=false;
                                     tempvote=false;
                                     break;
                                 default:
                                     break;
                             }
                             this.setState({
-                                mess:mess,
-                                open:true,
+                                open:open,
                                 voted:tempvote
                             });
                         }}
             />
         </div>;
-        var extra=<CardExtra/>
+        var extra=<CardExtra expand={this.handleExpandChange.bind(this)}/>
         var {id}=this.props;
         return (
-            <div>
-                <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange.bind(this)} style={{
+            <div >
+                <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange.bind(this)} containerStyle={{
+                    borderRadius: 4
+                }} style={{
                     margin:"8px 14px 8px",
-                    backgroundColor:"rgba(255, 255, 255, 0.7)"
-                }}>
+                    backgroundColor: "rgba( 255, 255, 255 , 0.322)"
+                }}
+                >
                     <CardHeader
                         avatar={ava}
                         actAsExpander={false}
@@ -93,8 +95,8 @@ class CardWithPic extends Component {
                     </CardHeader>
                     <Snackbar
                         open={this.state.open}
-                        message={this.state.mess}
-                        autoHideDuration={200000}
+                        message="同一类型投票不能超过5个"
+                        autoHideDuration={2000}
                         onRequestClose={()=>{
                             this.setState({
                                 open:false
@@ -103,8 +105,8 @@ class CardWithPic extends Component {
                     />
                     <ReactCSSTransitionGroup 
                         transitionName="example" 
-                        transitionEnterTimeout={500} 
-                        transitionLeaveTimeout={300}>
+                        transitionEnterTimeout={200} 
+                        transitionLeaveTimeout={200}>
                         {this.state.expanded==true?extra:null}
                     </ReactCSSTransitionGroup>
                 </Card>
