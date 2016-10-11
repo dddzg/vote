@@ -1,3 +1,11 @@
 body{
     margin:0;
+    font-family:"Microsoft Yahei" !important;
+}
+
+div{
+    font-family:"Microsoft Yahei" !important;
+}
+.bg{
+    background-attachment:fixed;
 }

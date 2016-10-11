@@ -1,0 +1,19 @@
+.CardPic{
+    position: absolute;
+    display: block;
+    left:0;
+    top:0;
+    bottom: 0;
+}
+.CardIntr{
+    display:flex;
+    align-items: center;/*垂直居中*/
+    height: 100%;
+    width:90%;
+    white-space: pre-wrap;
+}
+.cardbox{
+    display:flex;
+    align-items: center;/*垂直居中*/
+    height: 100%;
+}

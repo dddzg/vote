@@ -2,12 +2,19 @@
   "name": "vote",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "devDependencies": {
+    "react-router": "^2.8.1",
     "react-scripts": "0.6.1"
   },
   "dependencies": {
+    "history": "^4.3.0",
     "react": "^15.3.2",
+    "react-addons-css-transition-group": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-motion": "^0.4.5",
+    "react-router": "^2.8.1",
+    "react-swipeable-views": "^0.7.10",
     "react-tap-event-plugin": "^1.0.0"
   },
   "scripts": {
