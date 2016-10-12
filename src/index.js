@@ -15,11 +15,14 @@ import App from './containers/App'
 require("./css/global.css");
 // require("./font-icons/style.css");
 injectTapEventPlugin();
-
+import 'whatwg-fetch'
 const muiTheme = getMuiTheme({
   tabs: {
     textColor: "#fff",
-    selectedTextColor: "#5b5dff"
+    selectedTextColor: "#5b5dff",
+  },
+  palette:{
+    primary1Color: "#5b5dff"
   }
 });
 

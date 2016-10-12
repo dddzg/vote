@@ -17,14 +17,15 @@ class CardIntroduction extends Component {
                 width:"100%"
             }}>
                 <div className="CardPic">
-                    <img  src={require("../pic/posters/your-name.png")} style={{
+                    <img  src={require(`../pic/posters/${this.props.id}.png`)} style={{
                     width:56,
-                    height:81
+                    height:81,
+                    borderRadius:2
                     }}/>
                 </div>
                 <div className="CardIntr">
-                    <p>
-                        北京遇上西雅
+                    <p style={{color:"#f7f3f9"}}>
+                        {this.props.name}
                     </p>
                 </div>
             </div>

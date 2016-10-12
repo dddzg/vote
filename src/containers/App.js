@@ -19,6 +19,9 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 var pic=require("../pic/bg@1x.jpg");
+import Dialog from 'material-ui/Dialog';
+import TextField from 'material-ui/TextField';
+import json from "../json/movies.json"
 class App extends Component {
     // constructor(props, context) {
     //     super(props, context);
@@ -41,9 +44,9 @@ class App extends Component {
         this.state = {
             value:1,
             vote:[],
-            kinds:[0,0,0,0,0,0]
+            kinds:[0,0,0,0,0,0],
+            open: false
         };
-        // console.log(this.state.vote[1]===0);
     };
     vote(id){
         var kind= Math.floor((id-1)/10)+1;
@@ -73,8 +76,19 @@ class App extends Component {
             value:id
         });
     }
+    handleClose(){
+        this.setState({open: false});
+    };
+    handleOpen(){
+        this.setState({open: true});
+    };
     next(){
-        if (this.state.value<5){
+        if (this.state.value==5){
+            this.setState({
+                open:true
+            });
+        }
+        else if (this.state.value<5){
             window.scrollTo(0,0); 
             this.setState({
                 value:this.state.value+1
@@ -90,6 +104,18 @@ class App extends Component {
         }
     }
     render() {
+        const actions = [
+        <FlatButton
+            label="取消"
+            onTouchTap={this.handleClose.bind(this)}
+        />,
+        <FlatButton
+            label="确认"
+            primary={true}
+            keyboardFocused={true}
+            onTouchTap={this.handleClose.bind(this)}
+        />,
+        ];
         return (
             <div className="bg" style={{
                 overflow:"hidden"
@@ -101,7 +127,8 @@ class App extends Component {
                     height:"100%",
                     position:"fixed",
                     zIndex:"0"
-                    }}> </div >
+                    }}>
+            </div>
             <div style={{
                 height:48
                 }}></div>
@@ -133,16 +160,16 @@ class App extends Component {
                     <Tab label="爱情" value={1}>
                     {
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item} id={item} 
+                            <CardWithPic key={item} id={item} name={json[item-1].name}
                             vote={this.vote.bind(this)}
                             />
                         )
                     }
                     </Tab>
-                    <Tab label="动作" value={2}>
+                    <Tab label="动画" value={2}>
                     {    
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item+10} id={item+10} 
+                            <CardWithPic key={item+10} id={item+10} name={json[item-1+10].name}
                             isVoted={typeof (this.state.vote[item+10])==="undefined"?0:this.state.vote[item+10]}
                             vote={this.vote.bind(this)}
                             />
@@ -152,27 +179,27 @@ class App extends Component {
                     <Tab label="剧情" value={3}>
                     {
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item+20} id={item+20} 
+                            <CardWithPic key={item+20} id={item+20} name={json[item-1+20].name}
                             isVoted={typeof (this.state.vote[item+20])==="undefined"?0:this.state.vote[item+20]}
                             vote={this.vote.bind(this)}
                             />
                         )
                     }
                     </Tab>
-                    <Tab label="恐怖" value={4}>
+                    <Tab label="惊悚" value={4}>
                     {
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item+30} id={item+30} 
+                            <CardWithPic key={item+30} id={item+30} name={json[item-1+30].name}
                             isVoted={typeof (this.state.vote[item+30])==="undefined"?0:this.state.vote[item+30]}
                             vote={this.vote.bind(this)}
                             />
                         )
                     }
                     </Tab>
-                    <Tab label="害怕" value={5}>
+                    <Tab label="动作" value={5}>
                     {
                         [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item+40} id={item+40} 
+                            <CardWithPic key={item+40} id={item+40} name={json[item-1+40].name}
                             isVoted={typeof (this.state.vote[item+40])==="undefined"?0:this.state.vote[item+40]}
                             vote={this.vote.bind(this)}
                             />
@@ -199,8 +226,17 @@ class App extends Component {
                     height:"48px",
                     fontWeight:"bold",
                     color:this.state.value==5?"#5b5dff":"#000"
-                }}onTouchTap={this.next.bind(this)} label={this.state.value==5?"提交":"下一页"} />
+                }} onTouchTap={this.next.bind(this)} label={this.state.value==5?"提交":"下一页"} />
                 </Paper>
+                <Dialog
+                title="电影投票确认"
+                actions={actions}
+                modal={false}
+                open={this.state.open}
+                onRequestClose={this.handleClose.bind(this)}
+                >
+                这是预留的确认按钮
+                </Dialog>
             </div>
         );
     }

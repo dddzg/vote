@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import CircularProgress from 'material-ui/CircularProgress';
 class CardExtra extends Component {
     render() {
         return (
@@ -10,8 +11,12 @@ class CardExtra extends Component {
                     fontSize:"12px",
                     lineHeight:"18px"
                 }}>
-                    我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍
-                    我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍我是萌萌的电影详情介绍
+                {
+                    this.props.extra===""?<CircularProgress style={{display:"block",margin:"0 auto"}}/>:
+                    <div style={{color:"#f7f3f9"}}>
+                        {this.props.extra}
+                    </div>
+                }
                 </CardText>
             </div>
         );

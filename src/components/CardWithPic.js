@@ -19,7 +19,8 @@ class CardWithPic extends Component {
             expanded: false,
             voted:false,
             open:false,
-            message:""
+            message:"",
+            extra:""
         };
     }
     shouldComponentUpdate(nextProps,nextState) {
@@ -29,17 +30,32 @@ class CardWithPic extends Component {
     }
     handleExpandChange () {
         this.setState({ expanded: !this.state.expanded });
+        if (this.state.extra===""){
+            fetch(`http://121.42.60.112/VoteMovies/vote.php?id=${this.props.id}`)
+            .then((response)=>{
+                return response.json();
+            }).then((json)=>{
+                this.setState({
+                    extra:json.info.details
+                })
+                this.forceUpdate();
+            }).catch(function(ex) {
+                console.log('parsing failed', ex)
+            })
+        }
     };
     render() {
-        var ava=<div className="cardbox">
-            <CardIntroduction expand={this.handleExpandChange.bind(this)}/>
+        var ava=<div className="cardbox" style={{marginRight:0}}>
+            <CardIntroduction expand={this.handleExpandChange.bind(this)} id={this.props.id} name={this.props.name}/>
             <Checkbox
                 style={{
                     display:"block",
-                    width:"24px"
+                    width:"24px",
+                    margin:"14px"
                 }}
                 iconStyle={{
-                    fill:"#5b5dff"
+                    fill:"#5b5dff",
+                    transitionDuration:"200ms"
                 }}
                 checkedIcon={<img src={require("../pic/check_48px2.0.png")} width="24px" height="24px"/>}
                 uncheckedIcon={<img src={require("../pic/check_48px6.0.png")} width="24px" height="24px"/>}
@@ -71,7 +87,6 @@ class CardWithPic extends Component {
                         }}
             />
         </div>;
-        var extra=<CardExtra expand={this.handleExpandChange.bind(this)}/>
         var {id}=this.props;
         return (
             <div >
@@ -103,12 +118,7 @@ class CardWithPic extends Component {
                             });
                         }}
                     />
-                    <ReactCSSTransitionGroup 
-                        transitionName="example" 
-                        transitionEnterTimeout={200} 
-                        transitionLeaveTimeout={200}>
-                        {this.state.expanded==true?extra:null}
-                    </ReactCSSTransitionGroup>
+                    {this.state.expanded==true?<CardExtra expand={this.handleExpandChange.bind(this)} extra={this.state.extra}/>:null}
                 </Card>
             </div>
         )
