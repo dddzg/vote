@@ -1,6 +1,9 @@
 body{
-    margin:0;
-    font-family:"Microsoft Yahei" !important;
+    font-family:"Microsoft Yahei",Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color:#000;
+    margin: 0 auto 0 auto;
+    padding: 0;
 }
 
 div{

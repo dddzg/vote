@@ -18,3 +18,33 @@
     height: 100%;
 }
 
+.flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width:60%;
+    margin:0 auto;
+    flex-wrap: wrap;
+     align-content:center;
+}
+.line{
+    width:100%;
+    display: block;
+    margin:0 auto;
+    text-align: center;
+    color: #f7f3f9;
+    font-size:16px;
+    padding-top:8px;
+}
+
+.flex>div{
+    padding-top:24px;
+}
+bold{
+    font-weight: bold;
+    padding: 0 6px;
+}
+.green{
+    color:#c8e1a0;
+}

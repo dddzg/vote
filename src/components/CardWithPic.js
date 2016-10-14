@@ -118,7 +118,13 @@ class CardWithPic extends Component {
                             });
                         }}
                     />
+                    <ReactCSSTransitionGroup
+                        transitionName="example" 
+                        transitionEnterTimeout={200} 
+                        transitionLeaveTimeout={200}
+                    >
                     {this.state.expanded==true?<CardExtra expand={this.handleExpandChange.bind(this)} extra={this.state.extra}/>:null}
+                    </ReactCSSTransitionGroup>
                 </Card>
             </div>
         )

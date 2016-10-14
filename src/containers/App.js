@@ -21,7 +21,14 @@ import FlatButton from 'material-ui/FlatButton';
 var pic=require("../pic/bg@1x.jpg");
 import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
+import CircularProgress from 'material-ui/CircularProgress';
 import json from "../json/movies.json"
+import Tab1 from '../components/Tab1.js'
+const json1=json.slice(0,10);
+const json2=json.slice(10,20);
+const json3=json.slice(20,30);
+const json4=json.slice(30,40);
+const json5=json.slice(40,50);
 class App extends Component {
     // constructor(props, context) {
     //     super(props, context);
@@ -45,12 +52,16 @@ class App extends Component {
             value:1,
             vote:[],
             kinds:[0,0,0,0,0,0],
-            open: false
+            open: false,
+            num:"",
+            done:false,
+            status:0
         };
+        document.getElementById("load").style.display="none";
     };
+    
     vote(id){
         var kind= Math.floor((id-1)/10)+1;
-        console.log(id,kind);
         var kinds=this.state.kinds;
         if (kinds[kind]>=5 && this.state.vote[id]!==true){
             return 0//单一类型投票不能超过5个
@@ -82,11 +93,60 @@ class App extends Component {
     handleOpen(){
         this.setState({open: true});
     };
+    handleSubmit(){
+        var storage = window.localStorage;
+        if (storage.getItem("number")===null){
+            this.setState({
+                done:true
+            })
+
+            var vote={};
+            for (var i=1;i<=50;++i){
+                if (typeof this.state.vote[i]==="undefined" || this.state.vote[i]===0)
+                    vote[i]=0;
+                else vote[i]=1;
+            }
+            var json=JSON.stringify(vote);
+            //console.log(json);
+            fetch(`http://121.42.60.112/VoteMovies/vote.php`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body:`vote=${json}`
+            })
+            .then((response)=>{
+                return response.json();
+            }).then((json)=>{
+                
+                storage.setItem("number",json.info);
+                this.setState({
+                    num:json.info
+                })
+                this.forceUpdate();
+            }).catch(function(ex) {
+                console.log('parsing failed', ex)
+            })
+        }else{
+            this.setState({
+                done:true,
+                num:storage.getItem("number")
+            })
+        }
+    }
     next(){
         if (this.state.value==5){
-            this.setState({
-                open:true
-            });
+            var storage = window.localStorage;
+            if (storage.getItem("number")==null)
+                this.setState({
+                    open:true
+                });
+            else{
+                this.setState({
+                    open:true,
+                    status:1
+                });
+            }
         }
         else if (this.state.value<5){
             window.scrollTo(0,0); 
@@ -113,130 +173,160 @@ class App extends Component {
             label="确认"
             primary={true}
             keyboardFocused={true}
-            onTouchTap={this.handleClose.bind(this)}
+            onTouchTap={this.handleSubmit.bind(this)}
         />,
         ];
-        return (
-            <div className="bg" style={{
-                overflow:"hidden"
-            }}>
-            <div className="bg" style={{
-                    background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
-                    backgroundSize:"100% 100%",
-                    width:"100%",
-                    height:"100%",
-                    position:"fixed",
-                    zIndex:"0"
-                    }}>
-            </div>
-            <div style={{
-                height:48
-                }}></div>
-            <Tabs className="bg"
-                value={this.state.value}
-                onChange={this.handleChange.bind(this)}
-                tabItemContainerStyle={{
-                    position:"fixed",
-                    zIndex:100,
-                    top: 0,
-                    background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
-                    backgroundSize:"100% 100%",
-                    backgroundAttachment:"fixed",
-                    fontSize:12,
-                    overflow:"hidden"
-                }}
-                inkBarStyle={{
-                    top: "48px",
-                    zIndex:100,
-                    position:"fixed",
-                    background:"#5b5dff",
-                    overflow:"hidden"
-                }}
-                contentContainerStyle={{
-                    overflowY: "hidden"
-                }}
-                >
-
-                    <Tab label="爱情" value={1}>
-                    {
-                        [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item} id={item} name={json[item-1].name}
-                            vote={this.vote.bind(this)}
-                            />
-                        )
-                    }
-                    </Tab>
-                    <Tab label="动画" value={2}>
-                    {    
-                        [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item+10} id={item+10} name={json[item-1+10].name}
-                            isVoted={typeof (this.state.vote[item+10])==="undefined"?0:this.state.vote[item+10]}
-                            vote={this.vote.bind(this)}
-                            />
-                        )
-                    }
-                    </Tab>
-                    <Tab label="剧情" value={3}>
-                    {
-                        [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item+20} id={item+20} name={json[item-1+20].name}
-                            isVoted={typeof (this.state.vote[item+20])==="undefined"?0:this.state.vote[item+20]}
-                            vote={this.vote.bind(this)}
-                            />
-                        )
-                    }
-                    </Tab>
-                    <Tab label="惊悚" value={4}>
-                    {
-                        [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item+30} id={item+30} name={json[item-1+30].name}
-                            isVoted={typeof (this.state.vote[item+30])==="undefined"?0:this.state.vote[item+30]}
-                            vote={this.vote.bind(this)}
-                            />
-                        )
-                    }
-                    </Tab>
-                    <Tab label="动作" value={5}>
-                    {
-                        [1,2,3,4,5,6,7,8,9,10].map((item)=>
-                            <CardWithPic key={item+40} id={item+40} name={json[item-1+40].name}
-                            isVoted={typeof (this.state.vote[item+40])==="undefined"?0:this.state.vote[item+40]}
-                            vote={this.vote.bind(this)}
-                            />
-                        )
-                    }
-                    </Tab>
-                </Tabs>
+        var last;
+        if (this.state.done==false){
+            last=
+            <div>
                 <div style={{
-                height:48
-                }}></div>
-                <Paper style={{
-                    position:"fixed",
-                    bottom:"0",
-                    width:"100%",
-                    background:"rgba( 247, 243, 249 ,0.702)",
-                    borderRadius:0
-                }}zDepth={2}>
-                <FlatButton style={{
-                    width:"50%",
-                    height:"48px"
-                }}label="上一页" onTouchTap={this.prev.bind(this)} disabled={this.state.value==1?true:false}  />
-                <FlatButton style={{
-                    width:"50%",
-                    height:"48px",
-                    fontWeight:"bold",
-                    color:this.state.value==5?"#5b5dff":"#000"
-                }} onTouchTap={this.next.bind(this)} label={this.state.value==5?"提交":"下一页"} />
-                </Paper>
-                <Dialog
-                title="电影投票确认"
-                actions={actions}
-                modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose.bind(this)}
-                >
-                这是预留的确认按钮
-                </Dialog>
+                    height:48
+                    }}></div>
+                <Tabs 
+                    ref="dzg2"
+                    className="bg"
+                    value={this.state.value}
+                    onChange={this.handleChange.bind(this)}
+                    tabItemContainerStyle={{
+                        position:"fixed",
+                        zIndex:100,
+                        top: 0,
+                        background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
+                        backgroundSize:"100% 100%",
+                        backgroundAttachment:"fixed",
+                        fontSize:12,
+                        overflow:"hidden"
+                    }}
+                    inkBarStyle={{
+                        top: "48px",
+                        zIndex:100,
+                        position:"fixed",
+                        background:"#5b5dff",
+                        overflow:"hidden"
+                    }}
+                    contentContainerStyle={{
+                        overflowY: "hidden"
+                    }}
+                    >
+
+                        <Tab label="爱情" value={1}>
+                            <Tab1 name={json1} vote={this.vote.bind(this)} num={0}/>
+                        </Tab>
+                        <Tab label="动画" value={2}>
+                            <Tab1 name={json2} vote={this.vote.bind(this)} num={10}/>
+                        </Tab>
+                        <Tab label="剧情" value={3}>
+                            <Tab1 name={json3} vote={this.vote.bind(this)} num={20}/>
+                        </Tab>
+                        <Tab label="惊悚" value={4}>
+                            <Tab1 name={json4} vote={this.vote.bind(this)} num={30}/>
+                        </Tab>
+                        <Tab label="动作" value={5} ref="dzg">
+                            <Tab1 name={json5} vote={this.vote.bind(this)} num={40}/>
+                        </Tab>
+                    </Tabs>
+                    <div style={{
+                    height:48
+                    }}></div>
+                    <Paper style={{
+                        position:"fixed",
+                        bottom:"0",
+                        width:"100%",
+                        background:"rgba( 247, 243, 249 ,0.702)",
+                        borderRadius:0
+                    }}zDepth={2}>
+                    <FlatButton style={{
+                        width:"50%",
+                        height:"48px"
+                    }}label="上一页" onTouchTap={this.prev.bind(this)} disabled={this.state.value==1?true:false}  />
+                    <FlatButton style={{
+                        width:"50%",
+                        height:"48px",
+                        fontWeight:"bold",
+                        color:this.state.value==5?"#5b5dff":"#000"
+                    }} onTouchTap={this.next.bind(this)} label={this.state.value==5?"提交":"下一页"} />
+                    </Paper>
+                    <Dialog
+                    title="电影投票确认"
+                    actions={actions}
+                    modal={false}
+                    open={this.state.open}
+                    onRequestClose={this.handleClose.bind(this)}
+                    >
+                    {this.state.status===0?
+                        <div>
+                            <div>每个用户只能投<bold style={{color:"red"}}>1</bold>次票。</div>
+                            <div>你确认提交吗？</div>
+                        </div>:
+                        <div>
+                            <div>你之前已经投过票了，你可以点击确认，查看<bold style={{color:"red"}}>印花</bold></div>
+                        </div>
+                    }
+                    </Dialog>
+                </div>
+        }
+        else{
+            last=this.state.num!==""?
+            <div style={{
+            position: "absolute",
+            height: "100%",
+            overflow:"hidden"
+            }}>
+                <div className="flex">
+                    <div className="line">
+                        <img src={require("../pic/123.png")} alt="印花"/>
+                    </div>
+                    <div className="line">
+                        <p className="line">
+                            投票成功！
+                        </p>
+                        <p className="line">
+                        恭喜获得一枚印花
+                        </p>
+                    </div>
+                    <div className="line"> 
+                        <p className="line green">
+                            抽奖码:{this.state.num}
+                        </p>
+                        <p className="line">
+                            请<bold>截图</bold>保存
+                        </p>
+                    </div>
+                    <div style={{paddingBottom:"30px"}}>
+                        <p className="line">
+                        请于<bold>10月18、19日</bold>
+                        至
+                        <bold>一饭</bold>或
+                        <bold>二饭</bold>雕刻时光摆摊处凭<bold>抽奖码</bold>抽奖一次
+                        </p>
+                    </div>
+                </div>
+                </div>
+                :
+                <div style={{
+                position: "absolute",
+                height: "100%",
+                overflow:"hidden"
+                }}>
+                <div className="flex">
+                    <CircularProgress size={100} thickness={6} />
+                </div>
+            </div>
+        }
+        return (
+            <div>
+                <div className="bg" style={{
+                        background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
+                        backgroundSize:"100% 100%",
+                        width:"100%",
+                        height:"100%",
+                        position:"fixed",
+                        zIndex:"0"
+                        }}>
+                        
+                </div>
+                {last}
             </div>
         );
     }

@@ -1,10 +1,10 @@
 .example-enter {
-  opacity: 0.01;
+  opacity: 0;
 }
 
 .example-enter.example-enter-active {
   opacity: 1;
-  transition: opacity 200ms ease-in;
+  transition: opacity 150ms ease-in;
 }
 
 .example-leave {
@@ -12,6 +12,6 @@
 }
 
 .example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity 200ms ease-in;
+  opacity: 0;
+  transition: opacity 150ms ease-in;
 }
