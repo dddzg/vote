@@ -10,16 +10,16 @@ class CardIntroduction extends Component {
             <div onTouchTap={()=>
             this.props.expand()}
             style={{
-                padding:"0 0 0 0.81rem",
+                padding:"0 0 0 80px",
                 position:"relative",
-                height:"0.81rem",
+                height:"81px",
                 fontFamily:"Microsoft Yahei",
                 width:"100%"
             }}>
                 <div className="CardPic">
                     <img  src={require(`../pic/posters/${this.props.id}.png`)} style={{
-                    width:"0.56rem",
-                    height:"0.81rem",
+                    width:"56px",
+                    height:"81px",
                     borderRadius:2
                     }}/>
                 </div>

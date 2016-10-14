@@ -54,6 +54,7 @@ class App extends Component {
             done:false,
             status:0
         };
+        document.documentElement.style.fontSize = Math.min(window.innerWidth,800)/3.20 + 'px'
     }
     vote(id){
         var kind= Math.floor((id-1)/10)+1;
