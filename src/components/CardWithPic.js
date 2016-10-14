@@ -29,7 +29,6 @@ class CardWithPic extends Component {
         else return false;
     }
     handleExpandChange () {
-        console.log(this.state);
         this.setState({ 
             expanded: !this.state.expanded,
             extra:this.props.name.details

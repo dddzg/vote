@@ -5,7 +5,9 @@ body{
     margin: 0 auto 0 auto;
     padding: 0;
 }
-
+html {
+    font-size: calc(100vw/3.20);
+}
 div{
     font-family:"Microsoft Yahei" !important;
 }

@@ -266,11 +266,12 @@ class App extends Component {
             <div style={{
             position: "absolute",
             height: "100%",
+            width:"100%",
             overflow:"hidden"
             }}>
                 <div className="flex">
                     <div className="line">
-                        <img src={require("../pic/123.png")} alt="印花"/>
+                        <img src={require("../pic/123.png")} alt="印花" width="128px" height="128px"/>
                     </div>
                     <div className="line">
                         <p className="line">
