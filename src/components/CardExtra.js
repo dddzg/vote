@@ -12,7 +12,6 @@ class CardExtra extends Component {
                     lineHeight:"18px"
                 }}>
                 {
-                    this.props.extra===""?<CircularProgress  size={60} thickness={5} style={{display:"block",margin:"0 auto"}}/>:
                     <div style={{color:"#f7f3f9"}}>
                         {this.props.extra}
                     </div>

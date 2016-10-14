@@ -29,24 +29,15 @@ class CardWithPic extends Component {
         else return false;
     }
     handleExpandChange () {
-        this.setState({ expanded: !this.state.expanded });
-        if (this.state.extra===""){
-            fetch(`http://121.42.60.112/VoteMovies/vote.php?id=${this.props.id}`)
-            .then((response)=>{
-                return response.json();
-            }).then((json)=>{
-                this.setState({
-                    extra:json.info.details
-                })
-                this.forceUpdate();
-            }).catch(function(ex) {
-                console.log('parsing failed', ex)
-            })
-        }
+        console.log(this.state);
+        this.setState({ 
+            expanded: !this.state.expanded,
+            extra:this.props.name.details
+        });
     };
     render() {
         var ava=<div className="cardbox" style={{marginRight:0}}>
-            <CardIntroduction expand={this.handleExpandChange.bind(this)} id={this.props.id} name={this.props.name}/>
+            <CardIntroduction expand={this.handleExpandChange.bind(this)} id={this.props.id} name={this.props.name.name}/>
             <Checkbox
                 style={{
                     display:"block",

@@ -1,9 +1,6 @@
 import React, {
     Component
 } from 'react';
-import {
-    Link
-} from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import {
     Card,
@@ -57,9 +54,12 @@ class App extends Component {
             done:false,
             status:0
         };
-        document.getElementById("load").style.display="none";
-    };
-    
+    }
+    componentDidMount(){
+        var loadingMask = document.getElementById('load');
+        loadingMask.className="load fadeout";
+        setTimeout(function(){loadingMask.style.display="none"},3000)
+    }
     vote(id){
         var kind= Math.floor((id-1)/10)+1;
         var kinds=this.state.kinds;
@@ -315,7 +315,9 @@ class App extends Component {
             </div>
         }
         return (
-            <div>
+            <div className="bg" style={{
+                background:"black"
+            }}>
                 <div className="bg" style={{
                         background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
                         backgroundSize:"100% 100%",
