@@ -55,11 +55,6 @@ class App extends Component {
             status:0
         };
     }
-    componentDidMount(){
-        var loadingMask = document.getElementById('load');
-        loadingMask.className="load fadeout";
-        setTimeout(function(){loadingMask.style.display="none"},3000)
-    }
     vote(id){
         var kind= Math.floor((id-1)/10)+1;
         var kinds=this.state.kinds;
