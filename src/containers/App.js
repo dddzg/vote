@@ -187,18 +187,19 @@ class App extends Component {
                         position:"fixed",
                         zIndex:100,
                         top: 0,
+                        maxWidth:"800px",
                         background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
                         backgroundSize:"100% 100%",
                         backgroundAttachment:"fixed",
-                        fontSize:12,
+                        fontSize:"12px",
                         overflow:"hidden"
                     }}
                     inkBarStyle={{
                         top: "48px",
                         zIndex:100,
-                        position:"fixed",
                         background:"#5b5dff",
-                        overflow:"hidden"
+                        overflow:"hidden",
+                        position:"fixed"
                     }}
                     contentContainerStyle={{
                         overflowY: "hidden"
@@ -227,6 +228,7 @@ class App extends Component {
                     <Paper style={{
                         position:"fixed",
                         bottom:"0",
+                        maxWidth:"800px",
                         width:"100%",
                         background:"rgba( 247, 243, 249 ,0.702)",
                         borderRadius:0
@@ -312,7 +314,8 @@ class App extends Component {
         }
         return (
             <div className="bg" style={{
-                background:"black"
+                background:"black",
+                maxWidth:"800px"
             }}>
                 <div className="bg" style={{
                         background:`url(${require("../pic/bg@1x.jpg")}) no-repeat fixed`,
@@ -320,6 +323,7 @@ class App extends Component {
                         width:"100%",
                         height:"100%",
                         position:"fixed",
+                        maxWidth:"800px",
                         zIndex:"0"
                         }}>
                         
